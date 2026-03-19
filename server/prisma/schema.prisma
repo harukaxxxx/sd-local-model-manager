@@ -1,0 +1,48 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Model {
+  id             Int        @id @default(autoincrement())
+  name           String
+  fileName       String
+  type           String     // Checkpoint, LoRA, VAE, Embedding, etc.
+  filePath       String     @unique
+  fileSize       BigInt
+  sha256         String?
+  civitaiId      Int?       // CivitAI version ID
+  civitaiModelId Int?       // CivitAI model ID
+  baseModel      String?    // SD 1.5, SDXL, etc.
+  description    String?
+  previewUrl     String?    // 本地預覽圖相對路徑
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  tags           ModelTag[]
+}
+
+model Tag {
+  id     Int        @id @default(autoincrement())
+  name   String     @unique
+  models ModelTag[]
+}
+
+model ModelTag {
+  modelId Int
+  tagId   Int
+  model   Model @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  tag     Tag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([modelId, tagId])
+}
+
+model ScanPath {
+  id        Int      @id @default(autoincrement())
+  path      String   @unique
+  modelType String   // Checkpoint, LoRA, VAE, etc.
+  createdAt DateTime @default(now())
+}
