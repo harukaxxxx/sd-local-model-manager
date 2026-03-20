@@ -57,13 +57,42 @@ export async function fetchCivitaiByHash(hash: string, modelId: number): Promise
       });
     }
 
-    // 下載預覽圖
+    // 取得模型的 filePath
+    const model = await prisma.model.findUnique({
+      where: { id: modelId },
+      select: { filePath: true },
+    });
+
+    if (!model?.filePath) {
+      console.warn(`Model ${modelId} has no filePath, skipping preview check`);
+    }
+
+    // 檢查本地是否已有預覽圖
     let previewUrl: string | null = null;
-    if (data.images && data.images.length > 0) {
-      // 找第一張 SFW 預覽圖
-      const previewImage = data.images.find((img) => img.nsfwLevel <= 2) || data.images[0];
-      if (previewImage) {
-        previewUrl = await downloadPreview(previewImage.url, modelId);
+    if (model?.filePath) {
+      const modelDir = path.dirname(model.filePath);
+      const modelName = path.parse(model.filePath).name;
+
+      // 檢查模型目錄中是否存在預覽圖
+      const previewExtensions = ['.png', '.jpg', '.jpeg', '.webp'];
+      for (const ext of previewExtensions) {
+        const previewPath = path.join(modelDir, `${modelName}${ext}`);
+        try {
+          await fs.access(previewPath);
+          // 檔案存在
+          previewUrl = previewPath;
+          break;
+        } catch {
+          // 檔案不存在，繼續檢查下一個副檔名
+        }
+      }
+
+      // 如果本地沒有預覽圖，從 CivitAI 下載
+      if (!previewUrl && data.images && data.images.length > 0) {
+        const previewImage = data.images.find((img) => img.nsfwLevel <= 2) || data.images[0];
+        if (previewImage) {
+          previewUrl = await downloadPreview(previewImage.url, modelDir, modelName);
+        }
       }
     }
 
@@ -88,15 +117,15 @@ export async function fetchCivitaiByHash(hash: string, modelId: number): Promise
 }
 
 /**
- * 下載預覽圖到本地
+ * 下載預覽圖到模型目錄
  */
-async function downloadPreview(imageUrl: string, modelId: number): Promise<string> {
+async function downloadPreview(imageUrl: string, modelDir: string, modelName: string): Promise<string> {
   const ext = path.extname(new URL(imageUrl).pathname) || '.jpeg';
-  const fileName = `${modelId}${ext}`;
-  const filePath = path.join(config.previewDir, fileName);
+  const fileName = `${modelName}${ext}`;
+  const filePath = path.join(modelDir, fileName);
 
-  // 確保預覽圖目錄存在
-  await fs.mkdir(config.previewDir, { recursive: true });
+  // 確保模型目錄存在
+  await fs.mkdir(modelDir, { recursive: true });
 
   const response = await fetch(imageUrl);
   if (!response.ok) {
@@ -106,6 +135,6 @@ async function downloadPreview(imageUrl: string, modelId: number): Promise<strin
   const buffer = Buffer.from(await response.arrayBuffer());
   await fs.writeFile(filePath, buffer);
 
-  // 回傳相對路徑用於前端存取
-  return `/previews/${fileName}`;
+  // 回傳完整檔案路徑
+  return filePath;
 }

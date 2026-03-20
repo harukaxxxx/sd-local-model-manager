@@ -8,6 +8,7 @@ import scanRouter from './routes/scan.js';
 import settingsRouter from './routes/settings.js';
 import downloadRouter from './routes/download.js';
 import symlinkRouter from './routes/symlink.js';
+import filesRouter from './routes/files.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -25,6 +26,7 @@ app.use('/api/scan', scanRouter);
 app.use('/api/settings', settingsRouter);
 app.use('/api/models', downloadRouter);
 app.use('/api/models', symlinkRouter);
+app.use('/api/files', filesRouter);
 
 // Health check
 app.get('/api/health', (_req, res) => {

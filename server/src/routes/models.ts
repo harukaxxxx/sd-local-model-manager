@@ -3,6 +3,17 @@ import prisma from '../lib/prisma.js';
 
 const router = Router();
 
+/**
+ * 轉換 previewUrl 為 API URL 格式
+ */
+function transformPreviewUrl(previewUrl: string | null): string | null {
+  if (!previewUrl) return null;
+  // 如果已經是 /api/files 格式，直接回傳
+  if (previewUrl.startsWith('/api/files')) return previewUrl;
+  // 否則轉換為 API URL
+  return `/api/files?path=${encodeURIComponent(previewUrl)}`;
+}
+
 // GET /api/models - 模型列表（分頁 + 過濾）
 router.get('/', async (req, res) => {
   try {
@@ -50,6 +61,7 @@ router.get('/', async (req, res) => {
       ...m,
       fileSize: m.fileSize.toString(),
       tags: m.tags.map((t) => t.tag.name),
+      previewUrl: transformPreviewUrl(m.previewUrl),
     }));
 
     res.json({
@@ -87,6 +99,7 @@ router.get('/:id', async (req, res) => {
       ...model,
       fileSize: model.fileSize.toString(),
       tags: model.tags.map((t) => t.tag.name),
+      previewUrl: transformPreviewUrl(model.previewUrl),
     });
   } catch (error) {
     console.error('Error fetching model:', error);
