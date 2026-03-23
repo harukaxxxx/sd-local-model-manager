@@ -31,6 +31,10 @@ async def list_tags():
 @router.post("")
 async def create_tag(name: str):
     """Create a new tag."""
+    if not name or not name.strip():
+        raise HTTPException(status_code=400, detail="Tag name cannot be empty")
+    if len(name) > 50:
+        raise HTTPException(status_code=400, detail="Tag name too long (max 50 chars)")
     conn = await init_db()
     try:
         cursor = await conn.execute(
@@ -49,6 +53,15 @@ async def create_tag(name: str):
 async def update_model_tags(update: ModelTagUpdate):
     """Update tags for a model."""
     conn = await init_db()
+    # Verify all tag_ids exist
+    placeholders = ','.join('?' * len(update.tag_ids)) if update.tag_ids else ''
+    cursor = await conn.execute(f"SELECT id FROM tags WHERE id IN ({placeholders})", update.tag_ids)
+    valid_ids = {row[0] for row in await cursor.fetchall()}
+    invalid_ids = set(update.tag_ids) - valid_ids
+    if invalid_ids:
+        await conn.close()
+        raise HTTPException(status_code=400, detail=f"Invalid tag IDs: {invalid_ids}")
+
     await conn.execute(
         "DELETE FROM model_tags WHERE model_id = ?", (update.model_id,)
     )
