@@ -145,3 +145,4 @@ CREATE TABLE settings (
 - 預覽圖下載開關（是否自動下載）
 - 資料庫位置設定（`--database-dir` 命令列參數）
 - 主題支援（深色/淺色）
+- 前端頁面風格為 futuristic system ui
