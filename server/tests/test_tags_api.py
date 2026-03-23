@@ -92,3 +92,42 @@ async def test_update_model_tags(clean_db, client):
         "tag_ids": [tag1_id]
     })
     assert response.status_code == 200
+
+
+@pytest.mark.asyncio
+async def test_create_tag_empty_name(client, clean_db):
+    """Test creating tag with empty name returns 400."""
+    response = await client.post("/api/tags", params={"name": ""})
+    assert response.status_code == 400
+
+
+@pytest.mark.asyncio
+async def test_create_tag_too_long(client, clean_db):
+    """Test creating tag with name > 50 chars returns 400."""
+    long_name = "a" * 51
+    response = await client.post("/api/tags", params={"name": long_name})
+    assert response.status_code == 400
+
+
+@pytest.mark.asyncio
+async def test_update_model_tags_invalid_id(client, clean_db):
+    """Test updating model tags with invalid tag ID returns 400."""
+    import uuid
+    from server.database import init_db
+
+    # First create a model
+    conn = await init_db()
+    model_id = str(uuid.uuid4())
+    await conn.execute(
+        "INSERT INTO models (id, name, file_path) VALUES (?, ?, ?)",
+        (model_id, "test", "/tmp/test")
+    )
+    await conn.commit()
+    await conn.close()
+
+    # Try to update with non-existent tag ID
+    response = await client.post(
+        "/api/tags/model",
+        json={"model_id": model_id, "tag_ids": [99999]}
+    )
+    assert response.status_code == 400

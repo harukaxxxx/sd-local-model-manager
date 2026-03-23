@@ -53,8 +53,16 @@ async def create_tag(name: str):
 async def update_model_tags(update: ModelTagUpdate):
     """Update tags for a model."""
     conn = await init_db()
+
+    # Handle empty tag_ids - clear all tags from model
+    if not update.tag_ids:
+        await conn.execute("DELETE FROM model_tags WHERE model_id = ?", (update.model_id,))
+        await conn.commit()
+        await conn.close()
+        return {"status": "ok"}
+
     # Verify all tag_ids exist
-    placeholders = ','.join('?' * len(update.tag_ids)) if update.tag_ids else ''
+    placeholders = ','.join('?' * len(update.tag_ids))
     cursor = await conn.execute(f"SELECT id FROM tags WHERE id IN ({placeholders})", update.tag_ids)
     valid_ids = {row[0] for row in await cursor.fetchall()}
     invalid_ids = set(update.tag_ids) - valid_ids
