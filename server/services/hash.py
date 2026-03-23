@@ -8,6 +8,8 @@ CHUNK_SIZE = 1024 * 1024  # 1MB chunks
 
 async def compute_sha256(file_path: Path) -> str:
     """Compute SHA256 hash of a file asynchronously."""
+    if not file_path.exists():
+        raise FileNotFoundError(f"File not found: {file_path}")
     sha256_hash = hashlib.sha256()
     async with aiofiles.open(file_path, "rb") as f:
         while chunk := await f.read(CHUNK_SIZE):
@@ -17,6 +19,8 @@ async def compute_sha256(file_path: Path) -> str:
 
 async def compute_md5(file_path: Path) -> str:
     """Compute MD5 hash of a file asynchronously."""
+    if not file_path.exists():
+        raise FileNotFoundError(f"File not found: {file_path}")
     md5_hash = hashlib.md5()
     async with aiofiles.open(file_path, "rb") as f:
         while chunk := await f.read(CHUNK_SIZE):
@@ -26,6 +30,8 @@ async def compute_md5(file_path: Path) -> str:
 
 async def compute_hashes(file_path: Path) -> tuple[str, str]:
     """Compute both SHA256 and MD5 hashes."""
+    if not file_path.exists():
+        raise FileNotFoundError(f"File not found: {file_path}")
     sha256_hash = hashlib.sha256()
     md5_hash = hashlib.md5()
 
