@@ -52,6 +52,10 @@ async def init_db(db_path: Path = DATABASE_PATH) -> aiosqlite.Connection:
     return conn
 
 
-async def get_db() -> aiosqlite.Connection:
+async def get_db():
     """Dependency for FastAPI to get DB connection."""
-    return await init_db()
+    conn = await init_db()
+    try:
+        yield conn
+    finally:
+        await conn.close()
