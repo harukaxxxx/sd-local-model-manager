@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 
-from server.routers import models
+from server.routers import models, tags
 
 app = FastAPI(title="SD Local Model Manager API", version="0.1.0")
 
@@ -23,6 +23,7 @@ if frontend_path.exists():
     app.mount("/", StaticFiles(directory=str(frontend_path), html=True), name="frontend")
 
 app.include_router(models.router)
+app.include_router(tags.router)
 
 
 @app.get("/api/health")
