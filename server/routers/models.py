@@ -69,12 +69,16 @@ async def list_models(
         conditions.append("(m.name LIKE ? OR m.file_path LIKE ?)")
         params.extend([f"%{search}%", f"%{search}%"])
     if tag:
+        try:
+            tag_id = int(tag)
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Invalid tag ID")
         conditions.append("""
             m.id IN (
                 SELECT model_id FROM model_tags mt WHERE mt.tag_id = ?
             )
         """)
-        params.append(int(tag))
+        params.append(tag_id)
 
     where_clause = " AND ".join(conditions) if conditions else "1=1"
 

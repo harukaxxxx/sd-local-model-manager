@@ -28,3 +28,17 @@ async def test_list_models_empty(client):
     data = response.json()
     assert data["items"] == []
     assert data["total"] == 0
+
+
+@pytest.mark.asyncio
+async def test_get_model_not_found(client):
+    """Test getting non-existent model returns 404."""
+    response = await client.get("/api/models/nonexistent-id")
+    assert response.status_code == 404
+
+
+@pytest.mark.asyncio
+async def test_delete_model_not_found(client):
+    """Test deleting non-existent model returns 404."""
+    response = await client.delete("/api/models/nonexistent-id")
+    assert response.status_code == 404
