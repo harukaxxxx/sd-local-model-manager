@@ -43,8 +43,10 @@ CREATE INDEX IF NOT EXISTS idx_models_file_path ON models(file_path);
 """
 
 
-async def init_db(db_path: Path = DATABASE_PATH) -> aiosqlite.Connection:
+async def init_db(db_path: Path = None) -> aiosqlite.Connection:
     """Initialize database connection and create tables if not exist."""
+    if db_path is None:
+        db_path = DATABASE_PATH
     conn = await aiosqlite.connect(db_path)
     conn.row_factory = aiosqlite.Row
     await conn.executescript(SCHEMA)

@@ -1,7 +1,29 @@
 import pytest
 import pytest_asyncio
+import asyncio
+import os
+import tempfile
+from pathlib import Path
 from httpx import AsyncClient, ASGITransport
 from server.main import app
+
+
+@pytest_asyncio.fixture
+async def clean_db():
+    """Use a temp database for tests."""
+    import server.database as db
+    with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as f:
+        temp_path = Path(f.name)
+    orig = db.DATABASE_PATH
+    db.DATABASE_PATH = temp_path
+    conn = await db.init_db(temp_path)
+    yield conn
+    await conn.close()
+    try:
+        os.unlink(temp_path)
+    except:
+        pass
+    db.DATABASE_PATH = orig
 
 
 @pytest_asyncio.fixture
@@ -12,7 +34,7 @@ async def client():
 
 
 @pytest.mark.asyncio
-async def test_list_tags_empty(client):
+async def test_list_tags_empty(clean_db, client):
     """Test listing tags when none exist."""
     response = await client.get("/api/tags")
     assert response.status_code == 200
@@ -20,7 +42,7 @@ async def test_list_tags_empty(client):
 
 
 @pytest.mark.asyncio
-async def test_create_and_list_tag(client):
+async def test_create_and_list_tag(clean_db, client):
     """Test creating a tag and listing it."""
     # Create a tag
     response = await client.post("/api/tags", params={"name": "landscape"})
@@ -38,7 +60,7 @@ async def test_create_and_list_tag(client):
 
 
 @pytest.mark.asyncio
-async def test_create_duplicate_tag(client):
+async def test_create_duplicate_tag(clean_db, client):
     """Test that creating a duplicate tag fails."""
     await client.post("/api/tags", params={"name": "portrait"})
 
@@ -48,7 +70,7 @@ async def test_create_duplicate_tag(client):
 
 
 @pytest.mark.asyncio
-async def test_update_model_tags(client):
+async def test_update_model_tags(clean_db, client):
     """Test updating tags for a model."""
     # Create tags
     r1 = await client.post("/api/tags", params={"name": "anime"})
