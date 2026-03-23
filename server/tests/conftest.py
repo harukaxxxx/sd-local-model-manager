@@ -1,14 +1,18 @@
 """Pytest configuration and shared fixtures."""
 import pytest
+import pytest_asyncio
 import asyncio
 import os
 import tempfile
 from pathlib import Path
+from httpx import AsyncClient, ASGITransport
+
+from server.main import app
 
 pytest_plugins = ("pytest_asyncio",)
 
 
-@pytest.fixture(scope="function")
+@pytest_asyncio.fixture(scope="function")
 async def clean_db():
     """Create an isolated temporary database for each test.
 
@@ -42,3 +46,11 @@ async def clean_db():
 
     # Restore original path
     db_module.DATABASE_PATH = original_path
+
+
+@pytest_asyncio.fixture(scope="function")
+async def client():
+    """HTTP test client."""
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+        yield ac

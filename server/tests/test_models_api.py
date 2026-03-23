@@ -1,37 +1,4 @@
 import pytest
-import pytest_asyncio
-import asyncio
-import os
-import tempfile
-from pathlib import Path
-from httpx import AsyncClient, ASGITransport
-from server.main import app
-
-
-@pytest_asyncio.fixture
-async def clean_db():
-    """Use a temp database for tests."""
-    import server.database as db
-    with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as f:
-        temp_path = Path(f.name)
-    orig = db.DATABASE_PATH
-    db.DATABASE_PATH = temp_path
-    conn = await db.init_db(temp_path)
-    yield conn
-    await conn.close()
-    try:
-        os.unlink(temp_path)
-    except:
-        pass
-    db.DATABASE_PATH = orig
-
-
-@pytest_asyncio.fixture
-async def client():
-    """Async test client."""
-    transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as ac:
-        yield ac
 
 
 @pytest.mark.asyncio
