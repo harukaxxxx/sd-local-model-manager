@@ -5,11 +5,8 @@ from typing import AsyncIterator
 import asyncio
 
 MODEL_EXTENSIONS = {
-    ".ckpt", ".safetensors", ".pt", ".pth",  # Checkpoint
-    ".vae", ".pt", ".pth",                     # VAE
-    ".safetensors", ".pt", ".pth", ".bin",    # LoRA
-    ".pt", ".pth",                             # Hypernet
-    ".pt", ".pth", ".bin",                     # Embedding
+    # Supported model file extensions (used by is_model_file)
+    ".ckpt", ".safetensors", ".pt", ".pth", ".vae", ".bin",
 }
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 INFO_EXTENSIONS = {".md", ".civitai.info", ".info"}
@@ -111,12 +108,6 @@ async def scan_directory(
 
 async def _scan_dir_iter(root: Path, pattern: str) -> AsyncIterator[Path]:
     """Async iterator over directory entries."""
-
-    def _walk():
-        for entry in root.glob(pattern):
-            if entry.is_file():
-                yield entry
-
     loop = asyncio.get_event_loop()
     for item in await loop.run_in_executor(None, lambda: list(root.glob(pattern))):
         if item.is_file():
