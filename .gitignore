@@ -4,4 +4,4 @@
 models/ckpt
 models/embeddings
 models/loras
-models/vae
+models/vae.worktrees/
