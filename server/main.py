@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 
-from server.routers import civitai, models, tags
+from server.routers import civitai, models, tags, import_export
 
 app = FastAPI(title="SD Local Model Manager API", version="0.1.0")
 
@@ -25,6 +25,7 @@ if frontend_path.exists():
 app.include_router(models.router)
 app.include_router(tags.router)
 app.include_router(civitai.router)
+app.include_router(import_export.router)
 
 
 @app.get("/api/health")
