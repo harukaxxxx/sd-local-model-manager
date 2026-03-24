@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 
-from server.routers import models, tags
+from server.routers import civitai, models, tags
 
 app = FastAPI(title="SD Local Model Manager API", version="0.1.0")
 
@@ -17,13 +17,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount static files (frontend)
+# Mount static files (frontend) at /app to avoid conflicting with API routes
 frontend_path = Path(__file__).parent.parent / "frontend"
 if frontend_path.exists():
-    app.mount("/", StaticFiles(directory=str(frontend_path), html=True), name="frontend")
+    app.mount("/app", StaticFiles(directory=str(frontend_path), html=True), name="frontend")
 
 app.include_router(models.router)
 app.include_router(tags.router)
+app.include_router(civitai.router)
 
 
 @app.get("/api/health")
