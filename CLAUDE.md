@@ -30,7 +30,7 @@ conda deactivate
 ### Backend Development
 ```bash
 # Run server
-cd server && python main.py
+ python -m server.main
 
 # Run tests (ensure environment is activated)
 python -m pytest server/tests -v
