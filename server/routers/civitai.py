@@ -29,8 +29,9 @@ class CivitaiModelInfo(BaseModel):
 
 
 class DownloadRequest(BaseModel):
-    model_id: int
+    model_id: Optional[int] = None
     version_id: Optional[int] = None
+    url: Optional[str] = None  # Direct URL (including GDrive)
     dest_path: str
     dest_filename: Optional[str] = None
     download_preview: bool = True
@@ -64,23 +65,25 @@ async def get_model(model_id: int):
 
 @router.post("/download")
 async def download_model(request: DownloadRequest, background_tasks: BackgroundTasks):
-    """Download a model from Civitai."""
+    """Download a model from Civitai or direct URL."""
     dest_dir = Path(request.dest_path)
     if not dest_dir.exists():
         raise HTTPException(status_code=400, detail="Destination directory does not exist")
 
-    filename = request.dest_filename or f"model_{request.model_id}"
+    filename = request.dest_filename or f"model_{request.model_id or 'download'}"
     model_path = dest_dir / f"{filename}.safetensors"
 
-    # Download model
-    try:
+    if request.url:
+        # Direct URL download (Civitai, GDrive, etc.)
+        from server.services.downloader import download_file
+        result = await download_file(request.url, model_path)
+    else:
+        # Download from Civitai by model ID
         result = await download_civitai_model(
             request.model_id,
             model_path,
             request.version_id,
         )
-    except Exception as e:
-        raise HTTPException(status_code=502, detail=f"Download failed: {e}")
 
     # Fetch model info to get preview image URL
     preview_path = None
