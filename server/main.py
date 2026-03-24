@@ -11,7 +11,7 @@ app = FastAPI(title="SD Local Model Manager API", version="0.1.0")
 # CORS for local development
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=["http://localhost:3030", "http://127.0.0.1:3030"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -36,4 +36,6 @@ async def health():
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=3000)
+    print(f"Frontend: http://localhost:3030/app")
+    print(f"API:      http://localhost:3030/api")
+    uvicorn.run(app, host="127.0.0.1", port=3030)

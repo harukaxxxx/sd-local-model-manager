@@ -55,11 +55,10 @@ pip install python-multipart Pillow
 ### 3. 啟動伺服器
 
 ```bash
-cd server
-python main.py
+python -m server.main
 ```
 
-伺服器啟動於 `http://localhost:3000`。前端位於 `/app`（如 `http://localhost:3000/app`）。
+伺服器啟動於 `http://localhost:3030`。前端位於 `/app`（如 `http://localhost:3030/app`）。
 
 ## 專案結構
 

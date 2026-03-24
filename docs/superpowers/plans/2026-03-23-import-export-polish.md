@@ -947,7 +947,7 @@ Expected: ALL PASS
 - [ ] **Step 2: Test full user flow manually**
 
 1. Start server: `cd server && python main.py`
-2. Open http://localhost:3000
+2. Open http://localhost:3030
 3. Scan a directory with models
 4. View model cards
 5. Open model detail

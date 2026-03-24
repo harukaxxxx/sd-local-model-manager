@@ -3,7 +3,7 @@
 ## 開發概要
 
 - 核心目標：開發一款 Stable Diffusion 本地模型管理系統。
-- 部署模式：Localhost 優先。前端透過瀏覽器（如 http://localhost:3000）進行存取與管理。
+- 部署模式：Localhost 優先。前端透過瀏覽器（如 http://localhost:3030）進行存取與管理。
 
 ## 技術架構
 

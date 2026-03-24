@@ -81,7 +81,7 @@ All dependencies are specified in `environment.yml`. Key packages:
 ## Development Notes
 
 - Frontend is served at `/app` (StaticFiles mounted there to avoid route conflicts)
-- Backend runs on `http://localhost:3000` by default
+- Backend runs on `http://localhost:3030` by default
 - Use `PYTHONPATH=.` when running pytest from worktree root to resolve imports
 - Async fixtures in pytest must use `@pytest_asyncio.fixture` decorator (not bare `@pytest.fixture`)
 - Hash computation uses streaming to handle large files without memory overflow
