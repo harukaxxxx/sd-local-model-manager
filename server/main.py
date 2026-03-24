@@ -1,12 +1,23 @@
 """FastAPI application entry point."""
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 
-from server.routers import civitai, models, tags, import_export
+from server.routers import civitai, models, tags, import_export, settings
+from server.routers.settings import seed_default_settings
 
-app = FastAPI(title="SD Local Model Manager API", version="0.1.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: seed default settings
+    await seed_default_settings()
+    yield
+    # Shutdown: cleanup if needed
+
+
+app = FastAPI(title="SD Local Model Manager API", version="0.1.0", lifespan=lifespan)
 
 # CORS for local development
 app.add_middleware(
@@ -26,6 +37,7 @@ app.include_router(models.router)
 app.include_router(tags.router)
 app.include_router(civitai.router)
 app.include_router(import_export.router)
+app.include_router(settings.router)
 
 
 @app.get("/api/health")
