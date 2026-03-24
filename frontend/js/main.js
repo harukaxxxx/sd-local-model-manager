@@ -2,6 +2,7 @@
 import { modelsAPI, tagsAPI } from "./api.js";
 import { ModelGrid } from "./components/ModelGrid.js";
 import { ModelDetail } from "./components/ModelDetail.js";
+import { DownloadModal } from "./components/DownloadModal.js";
 import { showToast, debounce } from "./components/common.js";
 import { initRouter } from "./router.js";
 import { initSettings } from "./settings.js";
@@ -86,6 +87,18 @@ function openModelDetail(model) {
 
   container.innerHTML = "";
   container.appendChild(detail.element);
+  container.classList.remove("hidden");
+}
+
+function openDownloadModal() {
+  const container = document.getElementById("modal-container");
+  const modal = new DownloadModal({
+    onDownloadComplete: () => {
+      loadModels();
+    },
+  });
+  container.innerHTML = "";
+  container.appendChild(modal.element);
   container.classList.remove("hidden");
 }
 
@@ -193,6 +206,9 @@ async function init() {
       btn.disabled = false;
     }
   });
+
+  // Download button
+  document.getElementById("btn-download").addEventListener("click", openDownloadModal);
 }
 
 // Start app
