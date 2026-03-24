@@ -8,6 +8,7 @@ from fastapi.responses import Response
 from server.database import init_db
 from server.services.info_parser import parse_info_file
 from server.services.hash import compute_sha256, compute_md5, compute_hashes
+from server.services.preview import blur_image
 
 router = APIRouter(prefix="/api/import", tags=["import"])
 
@@ -201,3 +202,19 @@ async def batch_compute_hashes(limit: int = 10):
             results.append({"id": model_id, "status": "error", "error": str(e)})
 
     return results
+
+
+@router.post("/blur")
+async def blur_preview(
+    image_path: str,
+    radius: int = 20,
+):
+    """Apply Gaussian blur to preview image for NSFW content."""
+    input_path = Path(image_path)
+    if not input_path.exists():
+        raise HTTPException(status_code=400, detail="Image not found")
+
+    blurred_path = input_path.parent / f"{input_path.stem}_blurred{input_path.suffix}"
+    blur_image(input_path, blurred_path, radius)
+
+    return {"blurred_path": str(blurred_path)}

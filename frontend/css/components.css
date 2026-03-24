@@ -358,3 +358,88 @@
   background: var(--accent-primary);
   color: white;
 }
+
+/* Loading skeleton */
+.model-card.skeleton {
+  pointer-events: none;
+}
+.model-card.skeleton .model-card-image {
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-hover) 50%, var(--bg-tertiary) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Focus states */
+*:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Smooth transitions */
+.model-card,
+.btn,
+.filter-btn,
+.tag-chip,
+.modal,
+input, select, textarea {
+  transition: all 0.2s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .model-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  .app-header { gap: 8px; padding: 0 8px; }
+  .header-center { display: none; }
+}
+
+/* Empty state improvement */
+.empty-state-icon {
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+/* Detail panel styles */
+.detail-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.detail-value { font-size: 14px; color: var(--text-primary); }
+.detail-link { color: var(--accent-secondary); }
+.detail-link:hover { text-decoration: underline; }
+
+/* Search result items */
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.search-result-item:hover { background: var(--bg-hover); }
+.search-result-item.selected { background: var(--accent-primary); color: white; }
+.search-result-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background: var(--bg-tertiary);
+}
+.search-result-name { font-size: 13px; font-weight: 500; }
+.search-result-meta { font-size: 11px; color: var(--text-muted); }
+.search-result-item.selected .search-result-meta { color: rgba(255,255,255,0.8); }
+
+/* Search results container */
+.search-results { display: flex; flex-direction: column; gap: 4px; }
+
+/* Pagination max visible */
+.pagination { gap: 4px; }
+.pagination button { min-width: 36px; padding: 6px 8px; font-size: 13px; }

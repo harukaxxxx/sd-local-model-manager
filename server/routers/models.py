@@ -14,6 +14,7 @@ from server.models import (
     ScanRequest,
     ScanResponse,
 )
+from pydantic import BaseModel
 from server.services.scanner import scan_directory
 
 router = APIRouter(prefix="/api/models", tags=["models"])
@@ -228,3 +229,85 @@ async def delete_model(model_id: str):
     await conn.close()
 
     return {"status": "ok"}
+
+
+class MoveRequest(BaseModel):
+    model_ids: list[str]
+    dest_path: str
+    rename_prefix: Optional[str] = None
+
+
+@router.post("/move")
+async def move_models(request: MoveRequest):
+    """Move/relocate model files to a new directory."""
+    import shutil
+
+    dest = Path(request.dest_path)
+    if not dest.exists():
+        raise HTTPException(status_code=400, detail="Destination directory does not exist")
+    if not dest.is_dir():
+        raise HTTPException(status_code=400, detail="Destination is not a directory")
+
+    results = []
+    conn = await init_db()
+
+    for model_id in request.model_ids:
+        cursor = await conn.execute("SELECT file_path, name FROM models WHERE id = ?", (model_id,))
+        row = await cursor.fetchone()
+        if not row:
+            results.append({"id": model_id, "status": "not_found"})
+            continue
+
+        src_path = Path(row["file_path"])
+        if not src_path.exists():
+            results.append({"id": model_id, "status": "file_missing"})
+            continue
+
+        # Compute new filename
+        new_name = (request.rename_prefix or "") + src_path.name
+        new_path = dest / new_name
+
+        try:
+            shutil.move(str(src_path), str(new_path))
+
+            # Update database
+            await conn.execute(
+                "UPDATE models SET file_path = ?, updated_at = ? WHERE id = ?",
+                (str(new_path), int(datetime.now().timestamp()), model_id)
+            )
+            results.append({"id": model_id, "status": "ok", "new_path": str(new_path)})
+        except Exception as e:
+            results.append({"id": model_id, "status": "error", "error": str(e)})
+
+    await conn.commit()
+    await conn.close()
+    return {"results": results}
+
+
+@router.post("/rename")
+async def rename_model(model_id: str, new_name: str):
+    """Rename a model file and update database."""
+    import shutil
+
+    conn = await init_db()
+    cursor = await conn.execute("SELECT file_path FROM models WHERE id = ?", (model_id,))
+    row = await cursor.fetchone()
+    if not row:
+        await conn.close()
+        raise HTTPException(status_code=404, detail="Model not found")
+
+    src_path = Path(row["file_path"])
+    if not src_path.exists():
+        await conn.close()
+        raise HTTPException(status_code=400, detail="File not found")
+
+    new_path = src_path.parent / new_name
+    shutil.move(str(src_path), str(new_path))
+
+    await conn.execute(
+        "UPDATE models SET file_path = ?, name = ?, updated_at = ? WHERE id = ?",
+        (str(new_path), new_name, int(datetime.now().timestamp()), model_id)
+    )
+    await conn.commit()
+    await conn.close()
+    return {"status": "ok", "new_path": str(new_path)}
