@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SD Local Model Manager</title>
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-left">
+      <h1 class="app-title">SD Model Manager</h1>
+    </div>
+    <div class="header-center">
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="搜尋模型..." autocomplete="off">
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="btn btn-icon" id="btn-scan" title="掃描目錄">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+      </button>
+      <button class="btn btn-icon" id="btn-download" title="下載模型">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </button>
+      <button class="btn btn-icon" id="btn-settings" title="設定">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">模型類型</h3>
+        <ul class="filter-list" id="type-filters">
+          <li><button class="filter-btn active" data-type="">全部</button></li>
+          <li><button class="filter-btn" data-type="checkpoint">Checkpoint</button></li>
+          <li><button class="filter-btn" data-type="vae">VAE</button></li>
+          <li><button class="filter-btn" data-type="lora">LoRA</button></li>
+          <li><button class="filter-btn" data-type="hypernet">Hypernet</button></li>
+          <li><button class="filter-btn" data-type="embedding">Embedding</button></li>
+          <li><button class="filter-btn" data-type="other">其他</button></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">標籤</h3>
+        <ul class="tag-list" id="tag-filters">
+          <!-- Dynamically populated -->
+        </ul>
+      </div>
+    </aside>
+
+    <section class="content">
+      <div class="content-header">
+        <div class="sort-controls">
+          <select id="sort-select" class="select-input">
+            <option value="updated_at">最近更新</option>
+            <option value="name">名稱</option>
+            <option value="file_size">檔案大小</option>
+          </select>
+          <select id="sort-order" class="select-input">
+            <option value="desc">降序</option>
+            <option value="asc">升序</option>
+          </select>
+        </div>
+        <div class="view-controls">
+          <button class="btn btn-icon btn-view active" data-view="grid" title="網格視圖">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+            </svg>
+          </button>
+          <button class="btn btn-icon btn-view" data-view="list" title="列表視圖">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+              <line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/>
+              <line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="model-grid" class="model-grid">
+        <!-- Model cards rendered here -->
+      </div>
+
+      <div id="pagination" class="pagination">
+        <!-- Pagination controls -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal Container -->
+  <div id="modal-container" class="modal-container hidden">
+    <!-- Modals rendered here -->
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
