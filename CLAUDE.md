@@ -15,26 +15,38 @@ Stable Diffusion Local Model Manager - a web-based tool for managing Stable Diff
 
 ## Common Commands
 
+### Environment Setup (Conda)
+```bash
+# Create environment from project root
+conda env create -f environment.yml
+
+# Activate environment
+conda activate sd-local-model-manager
+
+# Deactivate when done
+conda deactivate
+```
+
 ### Backend Development
 ```bash
 # Run server
 cd server && python main.py
 
-# Run tests
-PYTHONPATH=. python -m pytest server/tests -v
+# Run tests (ensure environment is activated)
+python -m pytest server/tests -v
 
 # Run single test file
-PYTHONPATH=. python -m pytest server/tests/test_hash.py -v
+python -m pytest server/tests/test_hash.py -v
 ```
 
 ### Dependencies
-```bash
-# Install backend dependencies
-pip install -e ".[dev]"  # from server/
-
-# Install python-multipart (required for file uploads)
-pip install python-multipart
-```
+All dependencies are specified in `environment.yml`. Key packages:
+- `fastapi`, `uvicorn` - Web framework
+- `aiosqlite`, `aiofiles` - Async database/file operations
+- `pytest`, `pytest-asyncio` - Testing
+- `httpx` - HTTP client for API calls
+- `Pillow` - Image processing (preview resize, blur)
+- `python-multipart` - File upload support
 
 ## Architecture
 
