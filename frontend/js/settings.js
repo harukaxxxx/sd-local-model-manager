@@ -48,7 +48,7 @@ async function loadAllSettings() {
   return settings;
 }
 
-async function openSettings() {
+export async function openSettings() {
   const container = document.getElementById("modal-container");
   const currentSettings = await loadAllSettings();
 

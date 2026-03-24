@@ -1,11 +1,11 @@
 /** Main application entry point. */
-import { modelsAPI, tagsAPI } from "./api.js";
+import { modelsAPI, tagsAPI, settingsAPI } from "./api.js";
 import { ModelGrid } from "./components/ModelGrid.js";
 import { ModelDetail } from "./components/ModelDetail.js";
 import { DownloadModal } from "./components/DownloadModal.js";
 import { showToast, debounce } from "./components/common.js";
 import { initRouter } from "./router.js";
-import { initSettings } from "./settings.js";
+import { initSettings, openSettings } from "./settings.js";
 
 let currentFilters = {
   page: 1,
@@ -192,12 +192,22 @@ async function init() {
 
   // Scan button
   document.getElementById("btn-scan").addEventListener("click", async () => {
-    const directory = prompt("請輸入要掃描的目錄路徑：");
-    if (!directory) return;
     const btn = document.getElementById("btn-scan");
     btn.disabled = true;
     try {
-      const result = await modelsAPI.scan(directory);
+      // 檢查模型根目錄設定
+      const settings = await settingsAPI.get("model_root_path");
+      const modelRootPath = settings?.value;
+
+      if (!modelRootPath) {
+        // 未設定路徑 → 開啟設定頁面
+        showToast("請先設定模型根目錄", "warning");
+        openSettings();
+        return;
+      }
+
+      // 已設定路徑 → 直接掃描
+      const result = await modelsAPI.scan(modelRootPath);
       showToast(`已掃描 ${result.scanned} 個模型，新增 ${result.added} 個`, "success");
       loadModels();
     } catch (e) {
