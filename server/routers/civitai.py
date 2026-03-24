@@ -73,17 +73,20 @@ async def download_model(request: DownloadRequest, background_tasks: BackgroundT
     filename = request.dest_filename or f"model_{request.model_id or 'download'}"
     model_path = dest_dir / f"{filename}.safetensors"
 
-    if request.url:
-        # Direct URL download (Civitai, GDrive, etc.)
-        from server.services.downloader import download_file
-        result = await download_file(request.url, model_path)
-    else:
-        # Download from Civitai by model ID
-        result = await download_civitai_model(
-            request.model_id,
-            model_path,
-            request.version_id,
-        )
+    try:
+        if request.url:
+            # Direct URL download (Civitai, GDrive, etc.)
+            from server.services.downloader import download_file
+            result = await download_file(request.url, model_path)
+        else:
+            # Download from Civitai by model ID
+            result = await download_civitai_model(
+                request.model_id,
+                model_path,
+                request.version_id,
+            )
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Download failed: {e}")
 
     # Fetch model info to get preview image URL
     preview_path = None
