@@ -189,7 +189,6 @@
 
 .model-card-body {
   padding: var(--space-4);
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);

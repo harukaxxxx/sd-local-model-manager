@@ -79,7 +79,7 @@
 /* === App Main === */
 .app-main {
   display: flex;
-  flex: 1;
+  height: calc(100vh - 56px);
   overflow: hidden;
 }
 
@@ -153,6 +153,7 @@
   padding: var(--space-5);
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 .content-header {
@@ -180,8 +181,9 @@
 .model-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  align-content: start;
   gap: var(--space-5);
-  flex: 1;
+  overflow-y: auto;
 }
 
 .model-grid.list-view {
