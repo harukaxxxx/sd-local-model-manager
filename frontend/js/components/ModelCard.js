@@ -1,4 +1,3 @@
-/** Model card component. */
 import { formatFileSize } from "./common.js";
 
 export class ModelCard {
@@ -30,13 +29,31 @@ export class ModelCard {
       img.loading = "lazy";
       img.onerror = () => {
         img.style.display = "none";
-        imageDiv.innerHTML = `<div class="placeholder"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>`;
+        imageDiv.innerHTML = `
+          <div class="placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.5">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+          </div>
+        `;
       };
       imageDiv.appendChild(img);
     } else {
+      // Gradient placeholder
+      const gradients = {
+        checkpoint: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        vae: 'linear-gradient(135deg, #0891b2 0%, #06b6d4 100%)',
+        lora: 'linear-gradient(135deg, #16a34a 0%, #22c55e 100%)',
+        hypernet: 'linear-gradient(135deg, #d97706 0%, #f59e0b 100%)',
+        embedding: 'linear-gradient(135deg, #db2777 0%, #ec4899 100%)',
+        other: 'linear-gradient(135deg, #6b7280 0%, #9ca3af 100%)'
+      };
+      imageDiv.style.background = gradients[model_type] || gradients.other;
       imageDiv.innerHTML = `
         <div class="placeholder">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" opacity="0.7">
             <rect x="3" y="3" width="18" height="18" rx="2"/>
             <circle cx="8.5" cy="8.5" r="1.5"/>
             <polyline points="21 15 16 10 5 21"/>
