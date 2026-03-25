@@ -74,8 +74,12 @@ export async function openSettings() {
             <div class="settings-row">
               <span class="settings-label">主題</span>
               <select class="select-input" id="setting-theme">
-                <option value="dark">深色</option>
-                <option value="light">淺色</option>
+                <option value="light">淺色 Light</option>
+                <option value="dark">深色 Dark</option>
+                <option value="red">熱情紅 Red</option>
+                <option value="blue">靜謐藍 Blue</option>
+                <option value="green">自然綠 Green</option>
+                <option value="purple">神秘紫 Purple</option>
               </select>
             </div>
             <div class="settings-row">
