@@ -38,6 +38,7 @@
 /* Secondary Button */
 .btn-secondary {
   background: var(--bg-glass);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid var(--border);
   color: var(--text-primary);
@@ -119,8 +120,8 @@
 /* === Model Card === */
 .model-card {
   background: var(--bg-glass);
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;

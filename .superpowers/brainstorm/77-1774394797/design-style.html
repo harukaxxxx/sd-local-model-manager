@@ -1,0 +1,64 @@
+<h2>設計風格方向</h2>
+<p class="subtitle">選擇你喜歡的視覺風格方向</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>極簡玻璃質感</h3>
+      <p>大量留白 + 精緻玻璃面板 + 纖細字體，專業優雅</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>活力漸變風</h3>
+      <p>大圓角卡片 + 柔和漸變按鈕 + 幾何裝飾元素</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>深色奢華風</h3>
+      <p>深色背景 + 金屬光澤按鈕 + 精準陰影，旗艦感</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup" style="margin-top: 32px">
+  <div class="mockup-header">Mockup 預覽：卡片設計</div>
+  <div class="mockup-body" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 32px; border-radius: 16px;">
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
+      <!-- Card A - Glass -->
+      <div style="width: 180px; background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+        <div style="height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
+          <span style="color: white; font-size: 12px; font-weight: 600;">Preview</span>
+        </div>
+        <div style="padding: 12px;">
+          <div style="font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 4px;">Model Name</div>
+          <div style="font-size: 11px; color: rgba(255,255,255,0.6);">2.4 GB · Checkpoint</div>
+        </div>
+      </div>
+      <!-- Card B - Gradient -->
+      <div style="width: 180px; background: linear-gradient(145deg, #2a2a3e 0%, #1e1e2e 100%); border-radius: 24px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);">
+        <div style="height: 100px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center;">
+          <span style="color: white; font-size: 12px; font-weight: 600;">Preview</span>
+        </div>
+        <div style="padding: 14px;">
+          <div style="font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 4px;">Model Name</div>
+          <div style="font-size: 11px; color: rgba(255,255,255,0.5);">2.4 GB · Checkpoint</div>
+        </div>
+      </div>
+      <!-- Card C - Luxury -->
+      <div style="width: 180px; background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%); border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,215,0,0.2); box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 40px rgba(255,215,0,0.05);">
+        <div style="height: 100px; background: linear-gradient(135deg, #434343 0%, #000 100%); display: flex; align-items: center; justify-content: center;">
+          <span style="color: rgba(255,215,0,0.8); font-size: 12px; font-weight: 600;">Preview</span>
+        </div>
+        <div style="padding: 12px;">
+          <div style="font-size: 13px; font-weight: 600; color: #e8e8e8; margin-bottom: 4px;">Model Name</div>
+          <div style="font-size: 11px; color: rgba(255,255,255,0.4);">2.4 GB · Checkpoint</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

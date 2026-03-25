@@ -1,0 +1,85 @@
+<h2>設計方向總覽</h2>
+<p class="subtitle">確認你的設計選擇</p>
+
+<div style="display: grid; gap: 16px; max-width: 800px; margin: 0 auto;">
+  <!-- Style -->
+  <div style="padding: 16px; background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;">
+    <div class="label" style="color: #666; margin-bottom: 8px;">設計風格</div>
+    <div style="font-size: 16px; font-weight: 600; color: #fff;">極簡玻璃質感</div>
+    <div style="font-size: 13px; color: #888; margin-top: 4px;">大量留白 + 精緻玻璃面板 + 纖細字體，專業優雅</div>
+  </div>
+
+  <!-- Themes -->
+  <div style="padding: 16px; background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;">
+    <div class="label" style="color: #666; margin-bottom: 8px;">配色主題（全部 6 種）</div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <span style="padding: 6px 12px; background: linear-gradient(135deg, #f8f9fc, #e8eaef); border-radius: 20px; font-size: 12px; color: #333;">淺色 Light</span>
+      <span style="padding: 6px 12px; background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 20px; font-size: 12px; color: #818cf8;">深色 Dark</span>
+      <span style="padding: 6px 12px; background: linear-gradient(135deg, #1a1a1a, #0d0d0d); border-radius: 20px; font-size: 12px; color: #f87171;">熱情紅 Red</span>
+      <span style="padding: 6px 12px; background: linear-gradient(135deg, #1e293b, #1e293b); border-radius: 20px; font-size: 12px; color: #60a5fa;">靜謐藍 Blue</span>
+      <span style="padding: 6px 12px; background: linear-gradient(135deg, #1a1a1a, #0d0d0d); border-radius: 20px; font-size: 12px; color: #4ade80;">自然綠 Green</span>
+      <span style="padding: 6px 12px; background: linear-gradient(135deg, #1a1a1a, #0d0d0d); border-radius: 20px; font-size: 12px; color: #c084fc;">神秘紫 Purple</span>
+    </div>
+    <div style="font-size: 12px; color: #666; margin-top: 8px;">用戶可在設定中自由切換主題</div>
+  </div>
+
+  <!-- Typography -->
+  <div style="padding: 16px; background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;">
+    <div class="label" style="color: #666; margin-bottom: 8px;">字體</div>
+    <div style="font-family: 'Geist', sans-serif; font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px;">SD Model Manager</div>
+    <div style="font-family: 'Inter', sans-serif; font-size: 13px; color: #888;">Geist（標題） + Inter（內文）</div>
+  </div>
+</div>
+
+<div class="mockup" style="margin-top: 32px">
+  <div class="mockup-header">主頁面 Mockup 預覽</div>
+  <div class="mockup-body" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); padding: 24px; border-radius: 16px;">
+    <!-- Header -->
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; margin-bottom: 16px;">
+      <div style="font-family: 'Geist', sans-serif; font-size: 16px; font-weight: 700; color: #fff;">SD Model Manager</div>
+      <div style="display: flex; gap: 8px;">
+        <div style="width: 80px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 8px;"></div>
+        <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 8px;"></div>
+        <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 8px;"></div>
+      </div>
+    </div>
+    <!-- Content -->
+    <div style="display: flex; gap: 16px;">
+      <!-- Sidebar -->
+      <div style="width: 200px; padding: 16px; background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px;">
+        <div style="height: 12px; width: 60px; background: rgba(255,255,255,0.3); border-radius: 4px; margin-bottom: 16px;"></div>
+        <div style="height: 8px; width: 80px; background: rgba(255,255,255,0.15); border-radius: 4px; margin-bottom: 8px;"></div>
+        <div style="height: 28px; background: rgba(129,140,248,0.3); border-radius: 8px; margin-bottom: 4px;"></div>
+        <div style="height: 28px; background: rgba(255,255,255,0.08); border-radius: 8px; margin-bottom: 4px;"></div>
+        <div style="height: 28px; background: rgba(255,255,255,0.08); border-radius: 8px; margin-bottom: 4px;"></div>
+        <div style="height: 28px; background: rgba(255,255,255,0.08); border-radius: 8px;"></div>
+      </div>
+      <!-- Grid -->
+      <div style="flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+        <div style="background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; overflow: hidden;">
+          <div style="height: 80px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+          <div style="padding: 12px;">
+            <div style="height: 10px; width: 80%; background: rgba(255,255,255,0.3); border-radius: 4px; margin-bottom: 6px;"></div>
+            <div style="height: 6px; width: 50%; background: rgba(255,255,255,0.15); border-radius: 4px;"></div>
+          </div>
+        </div>
+        <div style="background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; overflow: hidden;">
+          <div style="height: 80px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+          <div style="padding: 12px;">
+            <div style="height: 10px; width: 80%; background: rgba(255,255,255,0.3); border-radius: 4px; margin-bottom: 6px;"></div>
+            <div style="height: 6px; width: 50%; background: rgba(255,255,255,0.15); border-radius: 4px;"></div>
+          </div>
+        </div>
+        <div style="background: rgba(255,255,255,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; overflow: hidden;">
+          <div style="height: 80px; background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);"></div>
+          <div style="padding: 12px;">
+            <div style="height: 10px; width: 80%; background: rgba(255,255,255,0.3); border-radius: 4px; margin-bottom: 6px;"></div>
+            <div style="height: 6px; width: 50%; background: rgba(255,255,255,0.15); border-radius: 4px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top: 24px; font-size: 14px; color: #888; text-align: center;">這是深色主題的預覽，其他主題會有不同的色調組合</p>

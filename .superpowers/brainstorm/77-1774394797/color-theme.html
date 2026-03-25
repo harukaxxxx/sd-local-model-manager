@@ -1,0 +1,97 @@
+<h2>配色主題</h2>
+<p class="subtitle">選擇基礎色調 + 強調色組合</p>
+
+<div class="options">
+  <div class="option" data-choice="light" onclick="toggleSelect(this)">
+    <div class="letter">1</div>
+    <div class="content">
+      <h3>淺色主題</h3>
+      <p>米白底色 + 藍紫強調色，柔和專業</p>
+    </div>
+  </div>
+  <div class="option" data-choice="dark" onclick="toggleSelect(this)">
+    <div class="letter">2</div>
+    <div class="content">
+      <h3>深色主題</h3>
+      <p>深灰底色 + 靛藍強調色，沈穩內斂</p>
+    </div>
+  </div>
+  <div class="option" data-choice="red" onclick="toggleSelect(this)">
+    <div class="letter">3</div>
+    <div class="content">
+      <h3>熱情紅</h3>
+      <p>深色底 + 玫瑰紅強調色，強烈個性</p>
+    </div>
+  </div>
+  <div class="option" data-choice="blue" onclick="toggleSelect(this)">
+    <div class="letter">4</div>
+    <div class="content">
+      <h3>靜謐藍</h3>
+      <p>中性底 + 天藍強調色，清新理智</p>
+    </div>
+  </div>
+  <div class="option" data-choice="green" onclick="toggleSelect(this)">
+    <div class="letter">5</div>
+    <div class="content">
+      <h3>自然綠</h3>
+      <p>深色底 + 薄荷綠強調色，活潑清新</p>
+    </div>
+  </div>
+  <div class="option" data-choice="purple" onclick="toggleSelect(this)">
+    <div class="letter">6</div>
+    <div class="content">
+      <h3>神秘紫</h3>
+      <p>暗色底 + 薰衣草紫強調色，夢幻高級</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup" style="margin-top: 24px">
+  <div class="mockup-header">主題預覽</div>
+  <div class="mockup-body" style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; padding: 24px; background: #1a1a1a; border-radius: 16px;">
+    <!-- Light -->
+    <div style="width: 120px; text-align: center;">
+      <div style="width: 100%; height: 70px; border-radius: 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: white; background: linear-gradient(135deg, #f8f9fc 0%, #e8eaef 100%); border: 1px solid #d1d5db;">
+        <span style="color: #4f46e5;">淺色</span>
+      </div>
+      <span style="font-size: 11px; color: #9ca3af;">Light</span>
+    </div>
+    <!-- Dark -->
+    <div style="width: 120px; text-align: center;">
+      <div style="width: 100%; height: 70px; border-radius: 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: white; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid #334155;">
+        <span style="color: #818cf8;">深色</span>
+      </div>
+      <span style="font-size: 11px; color: #9ca3af;">Dark</span>
+    </div>
+    <!-- Red -->
+    <div style="width: 120px; text-align: center;">
+      <div style="width: 100%; height: 70px; border-radius: 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: white; background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border: 1px solid rgba(239,68,68,0.3);">
+        <span style="color: #f87171;">熱情紅</span>
+      </div>
+      <span style="font-size: 11px; color: #9ca3af;">Red</span>
+    </div>
+    <!-- Blue -->
+    <div style="width: 120px; text-align: center;">
+      <div style="width: 100%; height: 70px; border-radius: 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: white; background: linear-gradient(135deg, #1e293b 0%, #1e293b 100%); border: 1px solid rgba(59,130,246,0.3);">
+        <span style="color: #60a5fa;">靜謐藍</span>
+      </div>
+      <span style="font-size: 11px; color: #9ca3af;">Blue</span>
+    </div>
+    <!-- Green -->
+    <div style="width: 120px; text-align: center;">
+      <div style="width: 100%; height: 70px; border-radius: 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: white; background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border: 1px solid rgba(34,197,94,0.3);">
+        <span style="color: #4ade80;">自然綠</span>
+      </div>
+      <span style="font-size: 11px; color: #9ca3af;">Green</span>
+    </div>
+    <!-- Purple -->
+    <div style="width: 120px; text-align: center;">
+      <div style="width: 100%; height: 70px; border-radius: 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: white; background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); border: 1px solid rgba(168,85,247,0.3);">
+        <span style="color: #c084fc;">神秘紫</span>
+      </div>
+      <span style="font-size: 11px; color: #9ca3af;">Purple</span>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top: 20px; font-size: 12px; color: #666; text-align: center;">浅色主题适合明亮环境，深色主题适合夜间使用</p>
